@@ -140,6 +140,85 @@
       <li class="L0"><code><span class="pln">javac </span><span class="pun">-</span><span class="pln">d target </span><span class="pun">-</span><span class="pln">classpath lib</span><span class="pun">/</span><span class="pln">news</span><span class="pun">.</span><span class="pln">jar </span><span class="pun">-</span><span class="pln">sourcepath src src</span><span class="pun">/</span><span class="pln">main</span><span class="pun">.</span><span class="pln">java</span></code></li>
       <li class="L1"><code><span class="pln">java </span><span class="pun">-</span><span class="pln">classpath lib</span><span class="pun">/</span><span class="pln">news</span><span class="pun">.</span><span class="pln">jar</span><span class="pun">:</span><span class="pln">target main</span></code></li>
      </ol></pre></li>
-  </ul>   
+  </ul>
+    <h5 id="h5--ant-"><a name="自我阶段总结，ant编译工具入手，愉快的编译" class="reference-link"></a><span class="header-link octicon octicon-link"></span>自我阶段总结，ant编译工具入手，愉快的编译</h5>
+  <ul> 
+   <li>下载<br /><a href="https://ant.apache.org/bindownload.cgi">下载地址</a></li>
+   <li>开发环境配置<pre class="prettyprint linenums prettyprinted" style="">
+     <ol class="linenums">
+      <li class="L0"><code><span class="kwd">export</span><span class="pln"> JAVA_HOME</span><span class="pun">=</span><span class="str">/usr/</span><span class="pln">java</span><span class="pun">/</span><span class="pln">jdk1</span><span class="pun">.</span><span class="lit">8.0</span><span class="pln">_201</span></code></li>
+      <li class="L1"><code><span class="kwd">export</span><span class="pln"> JRE_HOME</span><span class="pun">=</span><span class="str">/usr/</span><span class="pln">java</span><span class="pun">/</span><span class="pln">jdk1</span><span class="pun">.</span><span class="lit">8.0</span><span class="pln">_201</span><span class="pun">/</span><span class="pln">jre</span></code></li>
+      <li class="L2"><code><span class="kwd">export</span><span class="pln"> CLASSPATH</span><span class="pun">=.:</span><span class="pln">$JAVA_HOME</span><span class="pun">/</span><span class="pln">lib</span><span class="pun">:</span><span class="pln">$JRE_HOME</span><span class="pun">/</span><span class="pln">lib</span><span class="pun">:</span><span class="str">/usr/</span><span class="pln">ant</span><span class="pun">/</span><span class="pln">apache</span><span class="pun">-</span><span class="pln">ant</span><span class="pun">-</span><span class="lit">1.10</span><span class="pun">.</span><span class="lit">5</span><span class="pun">/</span><span class="pln">lib</span><span class="pun">:</span><span class="pln">$CLASSPATH</span></code></li>
+      <li class="L3"><code><span class="kwd">export</span><span class="pln"> ANT_HOME</span><span class="pun">=</span><span class="str">/usr/</span><span class="pln">ant</span><span class="pun">/</span><span class="pln">apache</span><span class="pun">-</span><span class="pln">ant</span><span class="pun">-</span><span class="lit">1.10</span><span class="pun">.</span><span class="lit">5</span></code></li>
+      <li class="L4"><code><span class="kwd">export</span><span class="pln"> PATH</span><span class="pun">=</span><span class="pln">$JAVA_HOME</span><span class="pun">/</span><span class="pln">bin</span><span class="pun">:</span><span class="pln">$JRE_HOME</span><span class="pun">/</span><span class="pln">bin</span><span class="pun">:</span><span class="str">/usr/</span><span class="pln">ant</span><span class="pun">/</span><span class="pln">apache</span><span class="pun">-</span><span class="pln">ant</span><span class="pun">-</span><span class="lit">1.10</span><span class="pun">.</span><span class="lit">5</span><span class="pun">/</span><span class="pln">bin</span><span class="pun">:</span><span class="pln">$PATH</span></code></li>
+     </ol></pre></li>
+   <li>是否安装成功测试<br /><code>ant -version</code></li>
+   <li><p>build.xml文件的编写</p> <pre class="prettyprint linenums prettyprinted" style="">
+     <ol class="linenums">
+      <li class="L0"><code><span class="pun">&lt;?</span><span class="pln">xml version</span><span class="pun">=</span><span class="str">&quot;1.0&quot;</span><span class="pln"> encoding</span><span class="pun">=</span><span class="str">&quot;utf8&quot;</span><span class="pun">?&gt;</span></code></li>
+      <li class="L1"><code><span class="com">&lt;!--project 用于定义一个ant工程，其中的三项name、default、basedir缺一不可。</span></code></li>
+      <li class="L2"><code><span class="com">作用分别为：定义工程名、制定默认执行的任务、以及工程基础的路径型(它是计算其它路径的基础，一般情况下使用.即在java工程根目录即可)--&gt;</span></code></li>
+      <li class="L3"><code><span class="tag">&lt;project</span><span class="pln"> </span><span class="atn">name</span><span class="pun">=</span><span class="atv">&quot;java&quot;</span><span class="pln"> </span><span class="atn">default</span><span class="pun">=</span><span class="atv">&quot;jar&quot;</span><span class="pln"> </span><span class="atn">basedir</span><span class="pun">=</span><span class="atv">&quot;.&quot;</span><span class="tag">&gt;</span></code></li>
+      <li class="L4"><code><span class="pln"> </span><span class="tag">&lt;description&gt;</span><span class="pln">easy ant</span><span class="tag">&lt;/description&gt;</span><span class="pln"> </span><span class="com">&lt;!--描述，个人觉得就是一提示作用，没什么实际用途--&gt;</span></code></li>
+      <li class="L5"><code><span class="pln"> </span><span class="tag">&lt;property</span><span class="pln"> </span><span class="atn">name</span><span class="pun">=</span><span class="atv">&quot;src&quot;</span><span class="pln"> </span><span class="atn">value</span><span class="pun">=</span><span class="atv">&quot;src&quot;</span><span class="pln"> </span><span class="tag">/&gt;</span><span class="com">&lt;!--定义源文件路径，其中的value换成location也行，使用value的时候，${src}得到的就是src这个值，如果使用location，得到的是src这个目录的绝对路径--&gt;</span></code></li>
+      <li class="L6"><code><span class="pln"> </span><span class="tag">&lt;property</span><span class="pln"> </span><span class="atn">name</span><span class="pun">=</span><span class="atv">&quot;build&quot;</span><span class="pln"> </span><span class="atn">value</span><span class="pun">=</span><span class="atv">&quot;target&quot;</span><span class="pln"> </span><span class="tag">/&gt;</span><span class="com">&lt;!--编译后class文件存放的地方--&gt;</span></code></li>
+      <li class="L7"><code><span class="pln"> </span><span class="tag">&lt;property</span><span class="pln"> </span><span class="atn">name</span><span class="pun">=</span><span class="atv">&quot;lib&quot;</span><span class="pln"> </span><span class="atn">value</span><span class="pun">=</span><span class="atv">&quot;lib&quot;</span><span class="tag">/&gt;</span><span class="pln"> </span><span class="com">&lt;!--其他引用的jar包存放的位置--&gt;</span></code></li>
+      <li class="L8"><code></code></li>
+      <li class="L9"><code><span class="pln"> </span><span class="com">&lt;!--创建任务init，负责初始化一些条件--&gt;</span></code></li>
+      <li class="L0"><code><span class="pln"> </span><span class="tag">&lt;target</span><span class="pln"> </span><span class="atn">name</span><span class="pun">=</span><span class="atv">&quot;init&quot;</span><span class="tag">&gt;</span></code></li>
+      <li class="L1"><code><span class="pln"> </span><span class="tag">&lt;delete</span><span class="pln"> </span><span class="atn">dir</span><span class="pun">=</span><span class="atv">&quot;${build}&quot;</span><span class="pln"> </span><span class="tag">/&gt;</span><span class="com">&lt;!--删掉原有文件夹--&gt;</span></code></li>
+      <li class="L2"><code><span class="pln"> </span><span class="tag">&lt;mkdir</span><span class="pln"> </span><span class="atn">dir</span><span class="pun">=</span><span class="atv">&quot;${build}&quot;</span><span class="pln"> </span><span class="tag">/&gt;</span><span class="com">&lt;!--重新生成文件夹--&gt;</span></code></li>
+      <li class="L3"><code><span class="pln"> </span><span class="tag">&lt;/target&gt;</span></code></li>
+      <li class="L4"><code></code></li>
+      <li class="L5"><code><span class="pln"> </span><span class="tag">&lt;path</span><span class="pln"> </span><span class="atn">id</span><span class="pun">=</span><span class="atv">&quot;classpath&quot;</span><span class="tag">&gt;</span></code></li>
+      <li class="L6"><code><span class="pln"> </span><span class="tag">&lt;fileset</span><span class="pln"> </span><span class="atn">dir</span><span class="pun">=</span><span class="atv">&quot;${lib}&quot;</span><span class="tag">&gt;</span></code></li>
+      <li class="L7"><code><span class="pln"> </span><span class="tag">&lt;include</span><span class="pln"> </span><span class="atn">name</span><span class="pun">=</span><span class="atv">&quot;*.jar&quot;</span><span class="tag">/&gt;</span></code></li>
+      <li class="L8"><code><span class="pln"> </span><span class="tag">&lt;/fileset&gt;</span></code></li>
+      <li class="L9"><code><span class="pln"> </span><span class="tag">&lt;/path&gt;</span></code></li>
+      <li class="L0"><code></code></li>
+      <li class="L1"><code><span class="pln"> </span><span class="com">&lt;!--创建编译任务，名字是compile,depends指定了comiple任务依赖init任务--&gt;</span></code></li>
+      <li class="L2"><code><span class="pln"> </span><span class="tag">&lt;target</span><span class="pln"> </span><span class="atn">name</span><span class="pun">=</span><span class="atv">&quot;compile&quot;</span><span class="pln"> </span><span class="atn">depends</span><span class="pun">=</span><span class="atv">&quot;init&quot;</span><span class="pln"> </span><span class="atn">description</span><span class="pun">=</span><span class="atv">&quot;comile target&quot;</span><span class="tag">&gt;</span></code></li>
+      <li class="L3"><code><span class="pln"> </span><span class="com">&lt;!--javac，编译，对应java中的javac命令--&gt;</span></code></li>
+      <li class="L4"><code><span class="pln"> </span><span class="com">&lt;!--srcdir定义源文件路径--&gt;</span></code></li>
+      <li class="L5"><code><span class="pln"> </span><span class="com">&lt;!--destdir定义编译后文件路径--&gt;</span></code></li>
+      <li class="L6"><code><span class="pln"> </span><span class="com">&lt;!--includeantruntime作用是指定编译任务是否包含ant的classpath,可有可无，不影响编译--&gt;</span></code></li>
+      <li class="L7"><code><span class="pln"> </span><span class="com">&lt;!--debug 设置为true 会把源文件的属性信息如源文件名称写入class文件 ; 如果为false以后log4j日志输出引用类名会找不到变成?号--&gt;</span></code></li>
+      <li class="L8"><code><span class="pln"> </span><span class="tag">&lt;javac</span><span class="pln"> </span><span class="atn">srcdir</span><span class="pun">=</span><span class="atv">&quot;${src}&quot;</span><span class="pln"> </span><span class="atn">destdir</span><span class="pun">=</span><span class="atv">&quot;${build}&quot;</span><span class="pln"> </span><span class="atn">debug</span><span class="pun">=</span><span class="atv">&quot;true&quot;</span><span class="pln"> </span><span class="atn">includes</span><span class="pun">=</span><span class="atv">&quot;&quot;</span><span class="pln"> </span><span class="atn">includeantruntime</span><span class="pun">=</span><span class="atv">&quot;true&quot;</span><span class="tag">&gt;</span></code></li>
+      <li class="L9"><code><span class="pln"> </span><span class="tag">&lt;classpath</span><span class="pln"> </span><span class="atn">refid</span><span class="pun">=</span><span class="atv">&quot;classpath&quot;</span><span class="tag">/&gt;</span><span class="pln"> </span><span class="com">&lt;!--前面已经配置的classpath,引入依赖的jar--&gt;</span></code></li>
+      <li class="L0"><code><span class="pln"> </span><span class="tag">&lt;/javac&gt;</span></code></li>
+      <li class="L1"><code><span class="pln"> </span><span class="tag">&lt;copy</span><span class="pln"> </span><span class="atn">todir</span><span class="pun">=</span><span class="atv">&quot;${classes}&quot;</span><span class="tag">&gt;</span><span class="com">&lt;!--把src源文件目录下的配置文件 , 复制到编译后的目录中--&gt;</span></code></li>
+      <li class="L2"><code><span class="pln"> </span><span class="tag">&lt;fileset</span><span class="pln"> </span><span class="atn">dir</span><span class="pun">=</span><span class="atv">&quot;${src}&quot;</span><span class="tag">&gt;</span></code></li>
+      <li class="L3"><code><span class="pln"> </span><span class="tag">&lt;include</span><span class="pln"> </span><span class="atn">name</span><span class="pun">=</span><span class="atv">&quot;**/*.xml&quot;</span><span class="tag">/&gt;</span></code></li>
+      <li class="L4"><code><span class="pln"> </span><span class="tag">&lt;include</span><span class="pln"> </span><span class="atn">name</span><span class="pun">=</span><span class="atv">&quot;**/*.properties&quot;</span><span class="tag">/&gt;</span></code></li>
+      <li class="L5"><code><span class="pln"> </span><span class="tag">&lt;/fileset&gt;</span></code></li>
+      <li class="L6"><code><span class="pln"> </span><span class="tag">&lt;/copy&gt;</span></code></li>
+      <li class="L7"><code><span class="pln"> </span><span class="tag">&lt;/target&gt;</span></code></li>
+      <li class="L8"><code></code></li>
+      <li class="L9"><code><span class="pln"> </span><span class="com">&lt;!--打包开始，名字为jar，依赖任务为compile--&gt;</span></code></li>
+      <li class="L0"><code><span class="pln"> </span><span class="tag">&lt;target</span><span class="pln"> </span><span class="atn">name</span><span class="pun">=</span><span class="atv">&quot;jar&quot;</span><span class="pln"> </span><span class="atn">depends</span><span class="pun">=</span><span class="atv">&quot;compile&quot;</span><span class="pln"> </span><span class="atn">description</span><span class="pun">=</span><span class="atv">&quot;make jar file&quot;</span><span class="tag">&gt;</span></code></li>
+      <li class="L1"><code><span class="pln"> </span><span class="tag">&lt;jar</span><span class="pln"> </span><span class="atn">jarfile</span><span class="pun">=</span><span class="atv">&quot;${jar_dir_name}&quot;</span><span class="pln"> </span><span class="atn">basedir</span><span class="pun">=</span><span class="atv">&quot;${classes}&quot;</span><span class="tag">&gt;</span><span class="com">&lt;!--jar操作，jarfile指定jar包存放路径，basedir为编译后的class的目录--&gt;</span></code></li>
+      <li class="L2"><code><span class="pln"> </span><span class="com">&lt;!--为jar包指定manifest，当然，如果jar包不需要打成runnable的形式，manifest可以不要--&gt;</span></code></li>
+      <li class="L3"><code><span class="pln"> </span><span class="tag">&lt;manifest&gt;</span></code></li>
+      <li class="L4"><code><span class="pln"> </span><span class="com">&lt;!--指定main-class--&gt;</span></code></li>
+      <li class="L5"><code><span class="pln"> </span><span class="tag">&lt;attribute</span><span class="pln"> </span><span class="atn">name</span><span class="pun">=</span><span class="atv">&quot;Main-Class&quot;</span><span class="pln"> </span><span class="atn">value</span><span class="pun">=</span><span class="atv">&quot;com.sunstar.coupon.monitor.JDMessageMonitor&quot;</span><span class="pln"> </span><span class="tag">/&gt;</span><span class="com">&lt;!--java -jar sunstar-coupon-1.0.jar 默认执行com.sunstar.coupon.monitor.JDMessageMonitor.main方法--&gt;</span></code></li>
+      <li class="L6"><code><span class="pln"> </span><span class="com">&lt;!--指定Class-Path--&gt;</span></code></li>
+      <li class="L7"><code><span class="pln"> </span><span class="com">&lt;!--&lt;attribute name=&quot;Class-Path&quot; value=&quot;${libs}&quot;&gt;--&gt;</span></code></li>
+      <li class="L8"><code><span class="pln"> </span><span class="com">&lt;!--&lt;/attribute&gt;--&gt;</span></code></li>
+      <li class="L9"><code><span class="pln"> </span><span class="tag">&lt;/manifest&gt;</span></code></li>
+      <li class="L0"><code><span class="pln"> </span><span class="tag">&lt;/jar&gt;</span></code></li>
+      <li class="L1"><code><span class="pln"> </span><span class="tag">&lt;/target&gt;</span></code></li>
+      <li class="L2"><code></code></li>
+      <li class="L3"><code><span class="pln"> </span><span class="tag">&lt;target</span><span class="pln"> </span><span class="atn">name</span><span class="pun">=</span><span class="atv">&quot;clean&quot;</span><span class="pln"> </span><span class="atn">description</span><span class="pun">=</span><span class="atv">&quot;clean *.class file&quot;</span><span class="tag">&gt;</span></code></li>
+      <li class="L4"><code><span class="pln"> </span><span class="tag">&lt;delete</span><span class="pln"> </span><span class="atn">dir</span><span class="pun">=</span><span class="atv">&quot;${build}&quot;</span><span class="pln"> </span><span class="tag">/&gt;</span><span class="com">&lt;!--删掉原有文件夹--&gt;</span></code></li>
+      <li class="L5"><code><span class="pln"> </span><span class="tag">&lt;/target&gt;</span></code></li>
+      <li class="L6"><code><span class="tag">&lt;/project&gt;</span></code></li>
+     </ol></pre></li>
+   <li>运行<pre class="prettyprint linenums prettyprinted" style="">
+     <ol class="linenums">
+      <li class="L0"><code><span class="pln">ant init</span></code></li>
+      <li class="L1"><code><span class="pln">ant compile</span></code></li>
+      <li class="L2"><code><span class="pln">ant clean</span></code></li>
+     </ol></pre></li>
+  </ul>
  </body>
 </html>
